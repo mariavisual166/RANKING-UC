@@ -3,6 +3,8 @@
 from flask import Flask, make_response, request
 from microservices.scholar import main
 from resources.ProcesarArchivoDocente import leerArchivoDocentes,Mensaje
+from resources.ModificarFecha import CambiarFechaTope
+#from resources.EnviarCorreo import enviar
 from flask_cors import CORS
 from flask_restful import Api
 import os
@@ -15,7 +17,7 @@ import types
 import psycopg2
 from microservices.Teachers import TeachersInsertInitial, TeacherstUpdate
 import requests
-
+#UPLOAD_FOLDER = 'C:/Users/wilke/Desktop/Mari 10112018/test-backend-apis-master'
 UPLOAD_FOLDER = 'C:/Users/Mariangela Goncalves/Desktop/prueba/test-backend-apis-master'
 ALLOWED_EXTENSIONS = set(['csv'])
 app = Flask(__name__)
@@ -52,12 +54,25 @@ class File(Resource):
             return json.dumps({'exitosa':'Error !!!. El formato del archivo ingresado no es csv'}), 201, { 'Access-Control-Allow-Origin': '*' }
 
 
-
+class fecha(Resource):
+    representations = {'application/json': make_response}
+    parser = reqparse.RequestParser()
+    def post(self,faces,facyt,face,odontologia,fcjp,ingieneria,derecho):
+        CambiarFechaTope(faces,facyt,face,odontologia,fcjp,ingieneria,derecho)
+        Error="Las fechas topes han sido modificadas con exito !!!"
+        return json.dumps({'exitosa':Error}), 201, { 'Access-Control-Allow-Origin': '*' }
+    
+        
 # docentes route
 api.add_resource(TeachersInsertInitial, '/docentes')
 api.add_resource(TeacherstUpdate, '/docentes/<date_update>')
 #api.add_resource(File, '/upload')
 api.add_resource(File, '/upload/<user>')
+#api.add_resource(fecha, '/fechas/<string:faces>')
+api.add_resource(fecha, '/fechas/<string:faces>/<string:facyt>/<string:face>/<string:odontologia>/<string:fcjp>/<string:ingieneria>/<string:derecho>')
+#api.add_resource(fecha, '/fechas')
+
+
 if __name__ == '__main__':
    
     app.run(debug=True, port=int('8083'))
