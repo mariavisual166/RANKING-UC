@@ -40,8 +40,8 @@ class File(Resource):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             NombreArchivo=file.filename
-            user="Facyt"
-            Error= leerArchivoDocentes(NombreArchivo,user)
+            User=user
+            Error= leerArchivoDocentes(NombreArchivo,User)
             os.remove(NombreArchivo) 
             if(Error=="El Archivo csv ha sido procesado con exito!!!"):
                 #data1={"username":user,"action": "Carga de archivo", "module": "Docentes"}
