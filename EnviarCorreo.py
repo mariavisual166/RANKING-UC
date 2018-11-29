@@ -78,6 +78,8 @@ def enviarCorreoUsuario():
         enviarCorreo(correo,mensaje)
         Enviado = "  UPDATE CorreoEnviado SET Logico='{}'WHERE Facultad='{}';".format("True","Facyt")
         cur.execute(Enviado)
+        #data1={"username":user,"action": "Enviar correo  a Facyt", "module": "Docentes"}
+        #r=requests.post("http://localhost:8084/api/v1/historyaction", data= json.dumps(data1))
 
     sqlquery7 = "SELECT Fecha FROM FechaTope WHERE Facultad='Faces';"
     cur.execute(sqlquery7)
@@ -92,6 +94,8 @@ def enviarCorreoUsuario():
         enviarCorreo(correo,mensaje)
         Enviado = "  UPDATE CorreoEnviado SET Logico='{}'WHERE Facultad='{}';".format("True","Faces")
         cur.execute(Enviado)
+        #data1={"username":user,"action": "Enviar correo  a Faces", "module": "Docentes"}
+        #r=requests.post("http://localhost:8084/api/v1/historyaction", data= json.dumps(data1))
 
     sqlquery7 = "SELECT Fecha FROM FechaTope WHERE Facultad='Face';"
     cur.execute(sqlquery7)
@@ -106,6 +110,8 @@ def enviarCorreoUsuario():
         enviarCorreo(correo,mensaje)
         Enviado = "  UPDATE CorreoEnviado SET Logico='{}'WHERE Facultad='{}';".format("True","Face")
         cur.execute(Enviado)
+         #data1={"username":user,"action": "Enviar correo  a Face", "module": "Docentes"}
+        #r=requests.post("http://localhost:8084/api/v1/historyaction", data= json.dumps(data1))
 
     sqlquery7 = "SELECT Fecha FROM FechaTope WHERE Facultad='Odontologia';"
     cur.execute(sqlquery7)
@@ -119,6 +125,9 @@ def enviarCorreoUsuario():
         enviarCorreo(correo,mensaje)
         Enviado = "  UPDATE CorreoEnviado SET Logico='{}'WHERE Facultad='{}';".format("True","Odontologia")
         cur.execute(Enviado)
+        #data1={"username":user,"action": "Enviar correo  a Odontologia", "module": "Docentes"}
+        #r=requests.post("http://localhost:8084/api/v1/historyaction", data= json.dumps(data1))
+
 
     sqlquery7 = "SELECT Fecha FROM FechaTope WHERE Facultad='Fcjp';"
     cur.execute(sqlquery7)
@@ -133,6 +142,8 @@ def enviarCorreoUsuario():
         enviarCorreo(correo,mensaje)
         Enviado = "  UPDATE CorreoEnviado SET Logico='{}'WHERE Facultad='{}';".format("True","Fcjp")
         cur.execute(Enviado)
+        #data1={"username":user,"action": "Enviar correo  a Fcjp", "module": "Docentes"}
+        #r=requests.post("http://localhost:8084/api/v1/historyaction", data= json.dumps(data1))
 
     sqlquery7 = "SELECT Fecha FROM FechaTope WHERE Facultad='Ingieneria';"
     cur.execute(sqlquery7)
@@ -147,6 +158,8 @@ def enviarCorreoUsuario():
         enviarCorreo(correo,mensaje)
         Enviado = "  UPDATE CorreoEnviado SET Logico='{}'WHERE Facultad='{}';".format("True","Ingeneria")
         cur.execute(Enviado)
+        #data1={"username":user,"action": "Enviar correo  a Ingieneria", "module": "Docentes"}
+        #r=requests.post("http://localhost:8084/api/v1/historyaction", data= json.dumps(data1))
 
     sqlquery7 = "SELECT Fecha FROM FechaTope WHERE Facultad='Fcs';"
     cur.execute(sqlquery7)
@@ -159,6 +172,8 @@ def enviarCorreoUsuario():
         mensaje="Primero que nada un cordial saludo de parte de Vicerrectodaro Academico de la Universidad de Carabobo . se le recuerda que la fecha para subir archivo de los docentes de Fcs y sus plublicaciones ya Expiro. Por  lo cual se le recuerda que debe subir el archivo correspondiente al Ranking UC.  "
         correo=obtenerCorreo("Fcs_docente")
         enviarCorreo(correo,mensaje)
+        #data1={"username":user,"action": "Enviar correo  a Fcs", "module": "Docentes"}
+                #r=requests.post("http://localhost:8084/api/v1/historyaction", data= json.dumps(data1))
         Enviado = "  UPDATE CorreoEnviado SET Logico='{}'WHERE Facultad='{}';".format("True","Fcs")
         cur.execute(Enviado)
     

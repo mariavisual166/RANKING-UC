@@ -18,7 +18,7 @@ import psycopg2
 from microservices.Teachers import TeachersInsertInitial, TeacherstUpdate
 import requests
 #UPLOAD_FOLDER = 'C:/Users/wilke/Desktop/Mari 10112018/test-backend-apis-master'
-UPLOAD_FOLDER = 'C:/Users/Mariangela Goncalves/Desktop/prueba/test-backend-apis-master'
+UPLOAD_FOLDER = os.getcwd() 
 ALLOWED_EXTENSIONS = set(['csv'])
 app = Flask(__name__)
 api = Api(app)

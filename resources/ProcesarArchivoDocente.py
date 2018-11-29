@@ -163,7 +163,9 @@ def leerArchivoDocentes(NombreArchivo,user):
                     FilaInvalida= cont;
                     MensajeError=MensajeError+Mensaje(FilaInvalida,17)+' '+'|'+' '
                     logico=0;
+             
                 if not (vefificarFacultad(user,reg)):
+
                     if(logico and FilaInvalida==0):
                         FilaInvalida= cont;
                         MensajeError=MensajeError+Mensaje(FilaInvalida,18)+'.' 
@@ -625,7 +627,7 @@ def actualizarOtros(reg,ListaOtroEstudioSistema):
 
 def vefificarFacultad(user, reg):
     logico=True
-    if(user=='Facyt' and reg['Facultad'] !='Facyt' ):
+    if(user=='Facyt_docente' and reg['Facultad'] !='Facyt' ):
         logico=False
     else:
         if(user=='Faces_docente' and reg['Facultad'] !='Faces' ):
