@@ -4,6 +4,7 @@ from flask import Flask, make_response, request
 from microservices.scholar import main
 from resources.ProcesarArchivoDocente import leerArchivoDocentes,Mensaje
 from resources.ModificarFecha import CambiarFechaTope
+from resources.ConsultarUltmimafecha import UltimaFecha
 #from resources.EnviarCorreo import enviar
 from flask_cors import CORS
 from flask_restful import Api
@@ -41,14 +42,17 @@ class File(Resource):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             NombreArchivo=file.filename
             User=user
-            Error= leerArchivoDocentes(NombreArchivo,User)
+            data = {}
+            data['Erros'] = []
+            Error= leerArchivoDocentes(NombreArchivo,User,data)
+            print(data) 
             os.remove(NombreArchivo) 
             if(Error=="El Archivo csv ha sido procesado con exito!!!"):
                 #data1={"username":user,"action": "Carga de archivo", "module": "Docentes"}
                 #r=requests.post("http://localhost:8084/api/v1/historyaction", data= json.dumps(data1))
                 pass
-                
-            return json.dumps({'exitosa':Error}), 201, { 'Access-Control-Allow-Origin': '*' }
+            data['Erros'].append({'exitosa': Error})
+            return json.dumps(data, 201, { 'Access-Control-Allow-Origin': '*' })
         else:
             # return error
             return json.dumps({'exitosa':'Error !!!. El formato del archivo ingresado no es csv'}), 201, { 'Access-Control-Allow-Origin': '*' }
@@ -62,13 +66,21 @@ class fecha(Resource):
         Error="Las fechas topes han sido modificadas con exito !!!"
         return json.dumps({'exitosa':Error}), 201, { 'Access-Control-Allow-Origin': '*' }
     
+class ultima(Resource):
+    representations = {'application/json': make_response}
+    parser = reqparse.RequestParser()
+    print("hola")
+    def post(self):
+        print(str(UltimaFecha("Facyt")))
         
+        return json.dumps({'Facyt':str(UltimaFecha("Facyt")),'Face':str(UltimaFecha("Face")),'Faces':str(UltimaFecha("Faces")),'Fcs':str(UltimaFecha("Fcs")),'Fcjp':str(UltimaFecha("Fcjp")),'Odontologia':str(UltimaFecha("Odontologia")),'Ingieneria':str(UltimaFecha("Ingieneria"))}), 201, { 'Access-Control-Allow-Origin': '*' }
+            
 # docentes route
 api.add_resource(TeachersInsertInitial, '/docentes')
 api.add_resource(TeacherstUpdate, '/docentes/<date_update>')
 #api.add_resource(File, '/upload')
 api.add_resource(File, '/upload/<user>')
-#api.add_resource(fecha, '/fechas/<string:faces>')
+api.add_resource(ultima, '/ultimaFecha')
 api.add_resource(fecha, '/fechas/<string:faces>/<string:facyt>/<string:face>/<string:odontologia>/<string:fcjp>/<string:ingieneria>/<string:derecho>')
 #api.add_resource(fecha, '/fechas')
 

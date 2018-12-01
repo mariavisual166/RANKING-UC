@@ -7,25 +7,25 @@ from microservices.scholar import main
 import time
 import datetime
 from datetime import datetime
-def Mensaje(aux,ErrorColum):
+def Mensaje(aux,ErrorColum,data):
     switcher = {
-        1: "Cedula (este campo solo puede contener valores numericos )",
-        2: "Primer nombre (este campo solo puede contener valores Alfabeticos )",
-        3: "Segundo nombre (este campo solo puede contener valores Alfabeticos )",
-        4: "Primer Apellido (este campo solo puede contener valores Alfabeticos ) ",
-        5: "Segundo Apellido (este campo solo puede contener valores Alfabeticos )",
-        6: "sexo (este campo solo puede contener los valores F (Femenino) o M (Masculino) )" ,
-        7: "correo (este campo debe tener el formato @example.com o @uc.edu.ve)",
-        8: "nacionalidad (este campo solo puede contener los valores V (Venezolano) o E (Extranjero) )",
-        9: "tipo(este campo solo puede contener los valores Normal, Contratado o Investigador   )",
-        10: "area de invetigacion (este campo solo puede contener valores Alfabeticos )",
-        11: "titulo (este campo solo puede contener valores Alfabeticos )",
-        12: "Nivel (este campo solo puede contener valores Pregrado, Postgrado, Maestia, Doctodado )",
+        1: "Cedula",
+        2: "primer_nombre",
+        3: "segundo_nombre ",
+        4: "primer_apellido  ",
+        5: "segundo_apellido ",
+        6: "sexo" ,
+        7: "correo",
+        8: "nacionalidad ",
+        9: "tipo",
+        10: "area de invetigacion ",
+        11: "titulo",
+        12: "Nivel",
         13: "otros estudios",
         14: "proyectos ",
         15: "premios ",
-        16: "escalafon (ste campo solo puede contener valores Instructor ,Asistente, Agregado,Asociado,Titular)",
-        17: "Facultad (este campo solo puede contener valores Faces, Facyt, Face, Fcs, Odontologia,Fcjp y Ingieneria )"
+        16: "escalafon ",
+        17: "Facultad "
     }
     if(ErrorColum==18):
         impr= "Error: el usuario no tiene permisos de insertar datos de otra facultad"
@@ -36,21 +36,22 @@ def Mensaje(aux,ErrorColum):
         else:
             impr= "Error: Fila {} columna {}".format(aux,switcher[ErrorColum])
          
-  
-    return(impr) 
+    data['Erros'].append({'error': impr})
 
-def leerArchivoDocentes(NombreArchivo,user):
+
+def leerArchivoDocentes(NombreArchivo,user,data):
 #conexion a la base de datos
+    
+
     PSQL_HOST = "localhost"
     PSQL_PORT = "5432"
     PSQL_USER = "postgres"
-     #
     PSQL_PASS = "0000"
     PSQL_DB   = "docente"
     connstr = "host=%s port=%s user=%s password=%s dbname=%s" % (PSQL_HOST, PSQL_PORT, PSQL_USER, PSQL_PASS, PSQL_DB)
     conn = psycopg2.connect(connstr)
     cur = conn.cursor()
-    MensajeError=""
+    ""
     
     with open(NombreArchivo) as csvarchivo:
         #spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
@@ -112,66 +113,66 @@ def leerArchivoDocentes(NombreArchivo,user):
 
                 if not (reg['ci'].isdigit()):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,1)+' '+'|'+' '
+                    Mensaje(FilaInvalida,1,data)
                 if not (type(reg['primer_nombre'])==str and (reg['primer_nombre'].isalpha())):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,2)+' '+'|'+' '
+                    Mensaje(FilaInvalida,2,data)
                 if not (type(reg['segundo_nombre'])==str and (reg['segundo_nombre'].isalpha())):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,3)+' '+'|'+' '
+                    Mensaje(FilaInvalida,3,data)
                 if not (type(reg['primer_apellido'])==str and (reg['primer_apellido'].isalpha())):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,4)+' '+'|'+' '
+                    Mensaje(FilaInvalida,4,data)
                 if not (type(reg['segundo_apellido'])==str and (reg['segundo_apellido'].isalpha())):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,5)+' '+'|'+' '
+                    Mensaje(FilaInvalida,5,data)
                 if not (type(reg['sexo'])==str and (reg['sexo']=='F' or reg['sexo']=='M')):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,6)+' '+'|'+' '
+                    Mensaje(FilaInvalida,6,data)
                 if not (type(reg['correo'])==str and (reg['correo'].find(".com") != -1 or reg['correo'].find(".ve") != -1 ) and reg['correo'].find("@") != -1):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,7)+' '+'|'+' ' 
+                    Mensaje(FilaInvalida,7,data) 
                 if not (type(reg['Nacionalidad'])==str and (reg['Nacionalidad']=='V' or reg['Nacionalidad']=='E') ):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,8)+' '+'|'+' '
+                    Mensaje(FilaInvalida,8,data)
                 if not (type(reg['Tipo'])==str and ((reg['Tipo'].isalpha())) and ( reg['Tipo']=="Normal") or (  reg['Tipo']=="Contratado") or (reg['Tipo']=="Investigador" )):
                    
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,9)+' '+'|'+' '
+                    Mensaje(FilaInvalida,9,data)
                 if not (type(reg['AreaDeInvestigacion'] )==str ):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,10)+' '+'|'+' '
+                    Mensaje(FilaInvalida,10,data)
                 if not (type(reg['titulo'])==str):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,11)+' '+'|'+' '
+                    Mensaje(FilaInvalida,11,data)
                 if not (type(reg['Nivel'])==str):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,12)+' '+'|'+' '
+                    Mensaje(FilaInvalida,12,data)
                 if not (type(reg['Otros_Estudios'])==str ):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,13)+' '+'|'+' '
+                    Mensaje(FilaInvalida,13,data)
                 if not (type(reg['Proyectos'])==str ):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,14)+' '+'|'+' '
+                    Mensaje(FilaInvalida,14,data)
                 if not (type(reg['Premios'])==str ):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,15)+' '+'|'+' '
+                    Mensaje(FilaInvalida,15,data)
                 if not (type(reg['Escalafon'])==str and ( reg['Escalafon']=="Instructor"  or reg['Escalafon']=="Asistente" or reg['Escalafon']=="Agregado"  or reg['Escalafon']=="Asociado"  or reg['Escalafon']=="Titular" )):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,16)+' '+'|'+' '
+                    Mensaje(FilaInvalida,16,data)
                 if not (type(reg['Facultad'])==str and (reg['Facultad']=="Facyt" or reg['Facultad']=="Faces" or reg['Facultad']=="Fcs" or reg['Facultad']=="Fcjp" or reg['Facultad']=="Odontologia" or reg['Facultad']=="Ingieneria" or reg['Facultad']=="Face" or reg['Facultad']=="Ingineria" ) ):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,17)+' '+'|'+' '
+                    Mensaje(FilaInvalida,17,data)
                     logico=0;
              
                 if not (vefificarFacultad(user,reg)):
 
                     if(logico and FilaInvalida==0):
                         FilaInvalida= cont;
-                        MensajeError=MensajeError+Mensaje(FilaInvalida,18)+'.' 
+                        Mensaje(FilaInvalida,18,data)+'.' 
                 if not (validadOrdenColum(orden)):
                     FilaInvalida= cont;
-                    MensajeError=MensajeError+Mensaje(FilaInvalida,19)+'.'
+                    Mensaje(FilaInvalida,19,data)+'.'
             #si no hay ningun error se inserta 
                 if(FilaInvalida == 0 ):
 
@@ -193,12 +194,12 @@ def leerArchivoDocentes(NombreArchivo,user):
                             InsDocente = "  UPDATE Docente SET primernombre='{}',SegundoNombre='{}',primerapellido='{}',SegundoApellido='{}',Sexo='{}',correo='{}',Nacionalidad='{}',Facultad='{}',Tipo='{}',AreaDeInvestigacion='{}',Escalafon='{}',FechaActualizacion='{}' WHERE Cedula='{}';".format(reg['primer_nombre'],segundo,reg['primer_apellido'],segundoA,reg['sexo'],reg['correo'],reg['Nacionalidad'],reg['Facultad'],reg['Tipo'],reg['AreaDeInvestigacion'],reg['Escalafon'],time.strftime('%Y-%m-%d %H:%M:%S'),reg['ci'])
                             cur.execute(InsDocente)
                             actualizarPublicacion(reg,ListaPublicacionSistema)
-                            MensajeError+MensajeError+actualizarTitulo(reg,cont,ListatitulosSistema)
+                            actualizarTitulo(reg,cont,ListatitulosSistema)
                             actualizarProyectos(reg,ListaProyectosSistema)
                             actualizarPremios(reg,ListaPremiosSistema)
                             actualizarOtros(reg,ListaOtroEstudioSistema)
                         else:
-                            MensajeError="Error:El archivo ingresado contiene a 2 o mas docentes con la misma Cedula de indentidad"
+                            "Error:El archivo ingresado contiene a 2 o mas docentes con la misma Cedula de indentidad"
                             FilaInvalida= cont;
                             
 
@@ -250,7 +251,7 @@ def leerArchivoDocentes(NombreArchivo,user):
                             else:
 
                                 FilaInvalida= cont;
-                                MensajeError=MensajeError+Mensaje(FilaInvalida,12)+','
+                                Mensaje(FilaInvalida,12,data)+','
                             i=i+1
                         #se obtine el ultimo id de OtroEstudio
                         ObtId = "SELECT id FROM OtroEstudio WHERE id=(SELECT MAX(id) from OtroEstudio);"
@@ -355,7 +356,7 @@ def leerArchivoDocentes(NombreArchivo,user):
             cont=cont+1
 
         
-     
+
     if(FilaInvalida == 0 ):
         conn.commit()
         cur.close()
@@ -369,7 +370,7 @@ def leerArchivoDocentes(NombreArchivo,user):
             if not (validadOrdenColum(orden)):
                 return " Error : Archivo de entrada o no cumple con el orden de columnas (ci,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,sexo,correo,Nacionalidad,Facultad,Tipo,AreaDeInvestigacion, titulo,Nivel,Otros_Estudios,Proyectos,Premios,Escalafon,Publicaciones)"
             else:
-                return MensajeError
+                return "Error a procesar el archivo. Por favor revise el pdf LISTA_ERRORES para conocer los errores del archivo ingresado al sistema" 
         
 def actualizarTitulo(reg,cont,ListatitulosSistema):
     ListaTilulos=[]
@@ -420,7 +421,7 @@ def actualizarTitulo(reg,cont,ListatitulosSistema):
                 ListaTilulos.append(CadenaTitulo[i]);
         else:
             FilaInvalida= cont;
-            MensajeE=Mensaje(FilaInvalida,12)+','
+            MensajeE=Mensaje(FilaInvalida,12,data)+','
         i=i+1
     if(FilaInvalida==0):
         conn.commit()
