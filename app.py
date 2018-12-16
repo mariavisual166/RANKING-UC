@@ -4,7 +4,7 @@ from flask import Flask, make_response, request
 from microservices.scholar import main
 from resources.ProcesarArchivoDocente import leerArchivoDocentes,Mensaje
 from resources.ModificarFecha import CambiarFechaTope
-from resources.ConsultarUltmimafecha import UltimaFecha
+from resources.ConsultarUltmimafecha import UltimaFecha,ActualizacionApi
 #from resources.EnviarCorreo import enviar
 from flask_cors import CORS
 from flask_restful import Api
@@ -45,7 +45,7 @@ class File(Resource):
             data = {}
             data['Erros'] = []
             Error= leerArchivoDocentes(NombreArchivo,User,data)
-            print(data) 
+            
             os.remove(NombreArchivo) 
             if(Error=="El Archivo csv ha sido procesado con exito!!!"):
                 #data1={"username":user,"action": "Carga de archivo", "module": "Docentes"}
@@ -73,7 +73,7 @@ class ultima(Resource):
     def post(self):
         print(str(UltimaFecha("Facyt")))
         
-        return json.dumps({'Facyt':str(UltimaFecha("Facyt")),'Face':str(UltimaFecha("Face")),'Faces':str(UltimaFecha("Faces")),'Fcs':str(UltimaFecha("Fcs")),'Fcjp':str(UltimaFecha("Fcjp")),'Odontologia':str(UltimaFecha("Odontologia")),'Ingieneria':str(UltimaFecha("Ingieneria"))}), 201, { 'Access-Control-Allow-Origin': '*' }
+        return json.dumps({'APi':str(ActualizacionApi()),'Facyt':str(UltimaFecha("Facyt")),'Face':str(UltimaFecha("Face")),'Faces':str(UltimaFecha("Faces")),'Fcs':str(UltimaFecha("Fcs")),'Fcjp':str(UltimaFecha("Fcjp")),'Odontologia':str(UltimaFecha("Odontologia")),'Ingieneria':str(UltimaFecha("Ingieneria"))}), 201, { 'Access-Control-Allow-Origin': '*' }
             
 # docentes route
 api.add_resource(TeachersInsertInitial, '/docentes')

@@ -30,3 +30,24 @@ def UltimaFecha(facultad):
         resul="No se ha relizado ninguna actualización "
 
     return(resul)
+def ActualizacionApi():
+    PSQL_HOST = "localhost"
+    PSQL_PORT = "5432"
+    PSQL_USER = "postgres"
+     #
+    PSQL_PASS = "0000"
+    PSQL_DB   = "docente"
+    connstr = "host=%s port=%s user=%s password=%s dbname=%s" % (PSQL_HOST, PSQL_PORT, PSQL_USER, PSQL_PASS, PSQL_DB)
+    conn = psycopg2.connect(connstr)
+    cur = conn.cursor()
+    resul=""
+    ObtId = "SELECT FechaActualizacion FROM Publicacion WHERE FechaActualizacion=(SELECT MAX(FechaActualizacion) from Publicacion) "
+    cur.execute(ObtId)
+    row=cur.fetchone()
+    if (row):
+        resul= row[0]
+    else:
+
+        resul="No se ha relizado ninguna actualización "
+
+    return(resul)

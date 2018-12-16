@@ -29,12 +29,12 @@ def Mensaje(aux,ErrorColum,data):
     }
     if(ErrorColum==18):
         impr= "Error: el usuario no tiene permisos de insertar datos de otra facultad"
-        impr=  impr + " " + " .Error: en la Fila {} columna Facultad".format(aux)
+        
     else:
         if(ErrorColum==19):
             impr= "Error: el order de las columnas debe ser (ci,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,sexo,correo,Nacionalidad, Facultad,Tipo, AreaDeInvestigacion, titulo,Nivel, Otros_Estudios,Proyectos, Premios,Escalafon,Publicaciones)"
         else:
-            impr= "Error: Fila {} columna {}".format(aux,switcher[ErrorColum])
+            impr= "Fila {} columna {}".format(aux,switcher[ErrorColum])
          
     data['Erros'].append({'error': impr})
 
@@ -166,13 +166,13 @@ def leerArchivoDocentes(NombreArchivo,user,data):
                     logico=0;
              
                 if not (vefificarFacultad(user,reg)):
-
+                    FilaInvalida=-2
                     if(logico and FilaInvalida==0):
                         FilaInvalida= cont;
-                        Mensaje(FilaInvalida,18,data)+'.' 
+                        Mensaje(FilaInvalida,18,data) 
                 if not (validadOrdenColum(orden)):
                     FilaInvalida= cont;
-                    Mensaje(FilaInvalida,19,data)+'.'
+                    Mensaje(FilaInvalida,19,data)
             #si no hay ningun error se inserta 
                 if(FilaInvalida == 0 ):
 
@@ -365,12 +365,15 @@ def leerArchivoDocentes(NombreArchivo,user,data):
     else:
         conn.rollback()
         if(FilaInvalida == -1 ):
-            return "Error : Faltan columnas en el archivo de entrada "
+            return "Error: formato invalido"
         else:
             if not (validadOrdenColum(orden)):
-                return " Error : Archivo de entrada o no cumple con el orden de columnas (ci,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,sexo,correo,Nacionalidad,Facultad,Tipo,AreaDeInvestigacion, titulo,Nivel,Otros_Estudios,Proyectos,Premios,Escalafon,Publicaciones)"
+                return "Error: formato invalido"
             else:
-                return "Error a procesar el archivo. Por favor revise el pdf LISTA_ERRORES para conocer los errores del archivo ingresado al sistema" 
+                if(FilaInvalida == -2):
+                    return "Error a procesar el archivo : este usuario no tiene permiso para ingresar informacion de otra facultad"
+                else:
+                    return "Error a procesar el archivo. Por favor revise el pdf LISTA_ERRORES para conocer los errores del archivo ingresado al sistema" 
         
 def actualizarTitulo(reg,cont,ListatitulosSistema):
     ListaTilulos=[]
