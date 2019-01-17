@@ -340,7 +340,7 @@ def leerArchivoDocentes(NombreArchivo,user,data):
                                 cur.execute(sqlquery3)
                             else:
                                 UltimoId=(UltimoId)+1
-                                sqlquery6 = "INSERT INTO Publicacion(Id,TituloPublicacion,FechaActualizacion,UrlCitacion,UrlPublicacion,NumeroCitaciones) VALUES ('{}','{}','{}','{}','{}',{});".format(UltimoId,cadena5[i],time.strftime('%Y-%m-%d %H:%M:%S'),"no tiene link","no tiene link",0)
+                                sqlquery6 = "INSERT INTO Publicacion(Id,TituloPublicacion,UrlCitacion,UrlPublicacion,NumeroCitaciones,FechaActualizacion) VALUES ('{}','{}','{}','{}','{}','{}');".format(UltimoId,cadena5[i],"no tiene link","no tiene link",0,time.strftime('%Y-%m-%d %H:%M:%S'))
                                 cur.execute(sqlquery6)
                                 sqlquery3 = "INSERT INTO DocenteTienePublicacion(CedulaPersona,IdPublicacion) VALUES ('{}','{}' );".format(reg['ci'],UltimoId)
                                 cur.execute(sqlquery3)

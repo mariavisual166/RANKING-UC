@@ -17,7 +17,7 @@ def Actualizar():
 	conn = psycopg2.connect(connstr)
 	cur = conn.cursor()
 
-	if((int(time.strftime("%d"))==11 or int(time.strftime("%d"))==10 or int(time.strftime("%d"))==20) and int(time.strftime("%M"))==27 and ( int(time.strftime("%S"))==10 or int(time.strftime("%S"))==12 ) and int(time.strftime("%H"))==20 ):
+	if((int(time.strftime("%d"))==11 or int(time.strftime("%d"))==10 or int(time.strftime("%d"))==8) and int(time.strftime("%M"))==32 and ( int(time.strftime("%S"))==10 or int(time.strftime("%S"))==12 ) and int(time.strftime("%H"))==18 ):
 		
 		ListaDeNombresDelSistema=[]
 		ListaDePirmerApellidoDelSistema=[]
@@ -41,6 +41,7 @@ def Actualizar():
 			#V[1]= URL de la Publicacion 
 			#ListaDePublicaciones[j]=Titulo de la publicacion 
 			#
+
 			V=main(autor,ListaDePublicaciones[j])
 			if(len(V)):
 				sqlquery10 = "UPDATE Publicacion SET NumeroCitaciones='{}',UrlCitacion='{}',UrlPublicacion='{}' WHERE TituloPublicacion='{}';".format(int(V[0]),V[1],V[3],ListaDePublicaciones[j])
@@ -49,6 +50,8 @@ def Actualizar():
 			#cur.execute(sqlquery8)
 			
 			j=j+1
+		sqlquery8 = "INSERT INTO FechaAPi(Fecha) VALUES ('{}');".format(time.strftime('%Y-%m-%d %H:%M:%S'))
+		cur.execute(sqlquery8)
 		print("Se realizo una Actualizacion..")
 		conn.commit() 
 		cur.close()

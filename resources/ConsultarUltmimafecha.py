@@ -41,7 +41,7 @@ def ActualizacionApi():
     conn = psycopg2.connect(connstr)
     cur = conn.cursor()
     resul=""
-    ObtId = "SELECT FechaActualizacion FROM Publicacion WHERE FechaActualizacion=(SELECT MAX(FechaActualizacion) from Publicacion) "
+    ObtId = "SELECT Fecha FROM FechaApi WHERE Fecha=(SELECT MAX(Fecha) from FechaApi) "
     cur.execute(ObtId)
     row=cur.fetchone()
     if (row):
