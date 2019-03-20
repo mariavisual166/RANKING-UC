@@ -1,11 +1,12 @@
 # Amigo progrmador , si le va hacer mantenimineto a este codigo , le deseo suerte.
-# Cuando este codigo fue creado solo dios y yo sabiamos como funcionaba , hoy en dia solo dios sabe
+# Cuando este codigo fue creado solo dios y yo sabiamos como funcionaba , hoy en dia solo dios lo sabe
+
 from flask import Flask, make_response, request
 from microservices.scholar import main
 from resources.ProcesarArchivoDocente import leerArchivoDocentes,Mensaje
 from resources.ModificarFecha import CambiarFechaTope
 from resources.ConsultarUltmimafecha import UltimaFecha,ActualizacionApi
-#from resources.EnviarCorreo import enviar
+from resources.ConsultarFechaTope import ConsultarFechaTopeE
 from flask_cors import CORS
 from flask_restful import Api
 import os
@@ -18,7 +19,7 @@ import types
 import psycopg2
 from microservices.Teachers import TeachersInsertInitial, TeacherstUpdate
 import requests
-#UPLOAD_FOLDER = 'C:/Users/wilke/Desktop/Mari 10112018/test-backend-apis-master'
+
 UPLOAD_FOLDER = os.getcwd() 
 ALLOWED_EXTENSIONS = set(['csv'])
 app = Flask(__name__)
@@ -69,20 +70,28 @@ class fecha(Resource):
 class ultima(Resource):
     representations = {'application/json': make_response}
     parser = reqparse.RequestParser()
-    print("hola")
     def post(self):
-        print(str(UltimaFecha("Facyt")))
-        
         return json.dumps({'APi':str(ActualizacionApi()),'Facyt':str(UltimaFecha("Facyt")),'Face':str(UltimaFecha("Face")),'Faces':str(UltimaFecha("Faces")),'Fcs':str(UltimaFecha("Fcs")),'Fcjp':str(UltimaFecha("Fcjp")),'Odontologia':str(UltimaFecha("Odontologia")),'Ingieneria':str(UltimaFecha("Ingieneria"))}), 201, { 'Access-Control-Allow-Origin': '*' }
-            
-# docentes route
+
+class ConsultarFechaTope(Resource):
+    representations = {'application/json': make_response}
+    parser = reqparse.RequestParser()
+    def post(self):
+        Facyt=ConsultarFechaTopeE("Facyt")
+        Face=ConsultarFechaTopeE("Face")
+        Faces=ConsultarFechaTopeE("Faces")
+        Fcs=ConsultarFechaTopeE("Fcs")
+        Fcjp=ConsultarFechaTopeE("Fcjp")
+        Odontologia=ConsultarFechaTopeE("Odontologia")
+        Ingieneria=ConsultarFechaTopeE("Ingieneria")
+        return json.dumps({'Facyt':str(Facyt),'Face':str(Face),'Faces':str(Faces),'Fcs':str(Fcs),'Fcjp':str(Fcjp),'Odontologia':str(Odontologia),'Ingieneria':str(Ingieneria)}), 201, { 'Access-Control-Allow-Origin': '*' }
+
+api.add_resource(ConsultarFechaTope, '/ConsultarFechaTopeE')
 api.add_resource(TeachersInsertInitial, '/docentes')
 api.add_resource(TeacherstUpdate, '/docentes/<date_update>')
-#api.add_resource(File, '/upload')
 api.add_resource(File, '/upload/<user>')
 api.add_resource(ultima, '/ultimaFecha')
 api.add_resource(fecha, '/fechas/<string:faces>/<string:facyt>/<string:face>/<string:odontologia>/<string:fcjp>/<string:ingieneria>/<string:derecho>')
-#api.add_resource(fecha, '/fechas')
 
 
 if __name__ == '__main__':

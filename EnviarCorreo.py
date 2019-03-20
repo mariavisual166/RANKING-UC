@@ -156,7 +156,7 @@ def enviarCorreoUsuario():
         mensaje="Primero que nada un cordial saludo de parte de Vicerrectodaro Academico de la Universidad de Carabobo . se le recuerda que la fecha para subir archivo de los docentes de Ingeneria y sus plublicaciones ya Expiro. Por  lo cual se le recuerda que debe subir el archivo correspondiente al Ranking UC.  "
         correo=obtenerCorreo("Ingeneria_docente")
         enviarCorreo(correo,mensaje)
-        Enviado = "  UPDATE CorreoEnviado SET Logico='{}'WHERE Facultad='{}';".format("True","Ingeneria")
+        Enviado = "  UPDATE CorreoEnviado SET Logico='{}'WHERE Facultad='{}';".format("True","Ingieneria")
         cur.execute(Enviado)
         #data1={"username":user,"action": "Enviar correo  a Ingieneria", "module": "Docentes"}
         #r=requests.post("http://localhost:8084/api/v1/historyaction", data= json.dumps(data1))

@@ -49,6 +49,9 @@ def CambiarFechaTope(faces,facyt,face,odontologia,fcjp,ingieneria,derecho):
     cur.execute(Enviado)
     Enviado = "  UPDATE CorreoEnviado SET Logico='{}'WHERE Facultad='{}';".format("False","Fcs")
     cur.execute(Enviado)
+
+   
+
     conn.commit()
     cur.close()
     conn.close()

@@ -630,6 +630,7 @@ def actualizarOtros(reg,ListaOtroEstudioSistema):
 
 
 def vefificarFacultad(user, reg):
+    print(user);
     logico=True
     if(user=='Facyt_docente' and reg['Facultad'] !='Facyt' ):
         logico=False
@@ -654,7 +655,7 @@ def vefificarFacultad(user, reg):
     if(user=='vicerrector'):
         logico=True
 
-
+    print(reg['Facultad'])
     return logico
 
 def validadOrdenColum(fieldnames):
